@@ -1,6 +1,6 @@
 all:
 
-.PHONY: update_deps clean check format
+.PHONY: update_deps clean check format help
 
 UPDATE_DEPS_ENV = .env-deps
 LINT_ENV = .env-lint
@@ -34,3 +34,6 @@ bundle: $(LINT_ENV)
 
 format: $(LINT_ENV)
 	./$(LINT_ENV)/bin/ruff format $(SOURCES)
+
+help:
+	@LC_ALL=C $(MAKE) -pRrq -f $(firstword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/(^|\n)# Files(\n|$$)/,/(^|\n)# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | grep -E -v -e '^[^[:alnum:]]' -e '^$@$$'
